@@ -7,11 +7,9 @@ services:
       dockerfile: Dockerfile
     image: mock-api-golang:latest
     container_name: mock-api
-    # NOT: Sunucunuzdaki mevcut 'backend' servisi 8080 portunu kullandığı için
-    # host ile çakışma olmaması adına dış portu 8081 yaptık (8081:8080).
-    # Caddy zaten saas_default ağı içinden 'mock-api:8080' ile doğrudan erişecektir.
-    ports:
-      - "8081:8080"
+    # NOT: Caddy 'saas_default' ağı içinden doğrudan 'mock-api:8080' ile
+    # iletişim kuracağı için sunucuda port çakışması olmaması adına
+    # dışarıya (host / 0.0.0.0) herhangi bir port açmaya gerek yoktur.
     environment:
       - PORT=8080
     restart: unless-stopped

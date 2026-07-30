@@ -47,9 +47,9 @@ GET /api/v1/transactions?scenario=error
 
 ## 🌐 Caddy ile Kullanım (`saas_default` Ağı)
 
-Projedeki `docker-compose.yml` dosyası, sunucunuzdaki mevcut Caddy (veya SaaS projeniz) ile aynı ağa bağlanacak şekilde **`saas_default`** dış ağına (`external: true`) ayarlanmıştır.
+Projedeki `docker-compose.yml` dosyası, sunucunuzdaki Caddy ile aynı ağa bağlanacak şekilde **`saas_default`** dış ağına (`external: true`) ayarlanmıştır.
 
-Ayrıca sunucunuzdaki diğer servisin 8080 portuyla çakışmasını önlemek için dış port `8081:8080` olarak ayarlanmıştır. Caddy ise zaten Docker ağı içinden doğrudan `mock-api:8080` adresi üzerinden bağlanır.
+> **Önemli:** Caddy zaten `saas_default` ağı içinden doğrudan `mock-api:8080` ile iletişim kurabildiği için, sunucunuzdaki diğer servislerle herhangi bir port çakışması (`port is already allocated`) olmaması adına dışarıya (host / `0.0.0.0`) hiçbir port açılmamıştır. Tüm trafik güvenli bir şekilde Caddy üzerinden HTTPS ile yönlendirilir.
 
 ### Caddyfile Ayarı
 Sunucunuzdaki `Caddyfile` dosyanıza aşağıdaki bloğu eklemeniz yeterlidir:
@@ -105,7 +105,7 @@ git clone https://github.com/<kullanici-adiniz>/<repo-adi>.git
 # 2. Proje klasörüne girin
 cd <repo-adi>
 
-# 3. Docker Compose ile derleyip arka planda çalıştırın (saas_default ağına bağlanacaktır)
+# 3. Docker Compose ile derleyip arka planda çalıştırın
 docker compose up -d --build
 ```
 
