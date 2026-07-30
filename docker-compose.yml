@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mock-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mock-api-golang:latest
+    container_name: mock-api
+    # NOT: Sunucunuzdaki mevcut 'backend' servisi 8080 portunu kullandığı için
+    # host ile çakışma olmaması adına dış portu 8081 yaptık (8081:8080).
+    # Caddy zaten saas_default ağı içinden 'mock-api:8080' ile doğrudan erişecektir.
+    ports:
+      - "8081:8080"
+    environment:
+      - PORT=8080
+    restart: unless-stopped
+    networks:
+      - saas_net
+
+networks:
+  saas_net:
+    external: true
+    name: saas_default
